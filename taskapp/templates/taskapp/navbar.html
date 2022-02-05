@@ -1,0 +1,49 @@
+{% load static %}
+
+
+<style>
+    .hello-msg{
+      font-size: 18px;
+      color: #fff;
+      margin-right: 20px;
+    }
+
+    .nav-link{
+      color: white !important
+    }
+    {% if request.user.is_staff %}
+    .margin-880{
+      margin-left: 800px;
+    }
+    {% else %}
+    .margin-880{
+      margin-left: 925px;
+    }
+    {% endif %}
+    .navbar-brand{
+      color: white !important
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'taskapp:index' %}">Task Roaster</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"  
+      aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavId">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      {% if request.user.is_staff %}
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'taskapp:createTask' %}">Create New Task <span class="sr-only">(current)</span></a>
+      </li>
+      {% endif %}
+      <li class="nav-item margin-880">
+        <a class="nav-link">Hello, {{request.user}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'taskapp:logout' %}">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>

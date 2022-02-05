@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}{% endblock title %}</title>
+        <meta name="description" content="CodersArts">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <link rel="apple-touch-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYybkhrYWVJbpmX8imVcThbQt2eNu7pwme8LpWr4YIOb0lVG8UQVJxEeMhBZSHj-MriaQ&usqp=CAU">
+	    <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYybkhrYWVJbpmX8imVcThbQt2eNu7pwme8LpWr4YIOb0lVG8UQVJxEeMhBZSHj-MriaQ&usqp=CAU">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+        <link rel="stylesheet" href="{% static 'assets/css/cs-skin-elastic.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/lib/datatable/dataTables.bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+        <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+        <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
+    
+        <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
+    
+       <style>
+        
+            .content{
+                margin: 0 20%;
+            }
+            .btn {
+                margin:5px;
+            }
+
+            .btn-primary{
+                float:right;
+            }
+            .spacer{
+                margin-bottom: 5px
+            }
+      </style>
+    </head>
+<body>
+    {%  include 'taskapp/navbar.html' %}
+    <a  class="btn btn-warning"  href="{% url 'taskapp:index' %}">Back </a>
+    <a class="btn btn-danger"  href="{% url 'taskapp:deleteTask' task.link_id %}">Delete This Task</a>
+    <a class="btn btn-primary"  href="{% url 'taskapp:editTask' task.link_id %}">Edit This Task</a>
+    <div class= "content"> 
+        <div class="row spacer">
+        <div class="col-3">
+            {% if task.name == 'Completed Task' or task.name == 'Task Completed' or task.name == 'completed task' or task.name == 'task completed' or task.name == 'done' or task.name == 'Done' %}
+            <label>Task Status</label>
+            {% else %}
+            <label>Assigned to</label>
+            {% endif %}
+        </div>
+        <div class="col-7">
+            <div class="input-group">
+                {{task.name}}
+            </div>
+        </div>
+    </div>
+    <div class="row spacer">
+        <div class="col-3">
+            <label>Email</label>
+        </div>
+        <div class="col-7">
+            <div class="input-group">
+                {{task.email}}
+            </div>
+        </div>
+    </div>
+    <div class="row spacer">
+        <div class="col-3">
+            <label>Title</label>
+        </div>
+        <div class="col-7">
+            <div class="input-group">
+                {{task.title}}
+            </div>
+        </div>
+    </div>
+    <div class="row spacer">
+        <div class="col-3">
+            <label>Description</label>
+        </div>
+        <div class="col-7">
+            <div class="input-group">
+                {{task.description}}
+            </div>
+        </div>
+    </div>
+    <div class="row spacer">
+        <div class="col-3">
+            <label>Created Date</label>
+        </div>
+        <div class="col-7">
+            <div class="input-group">
+                {{task.datecreated}}
+            </div>
+        </div>
+    </div>
+    <div class="row spacer">
+        <div class="col-3">
+            <label>Modified Date</label>
+        </div>
+        <div class="col-7">
+            <div class="input-group">
+                {{task.datelastmodified}}
+            </div>
+        </div>
+    </div>
+<hr/>
+    <div class="row spacer" style="background: grey; color:white;">
+        <div class="col-9">
+            <label>Comments Below</label>
+        </div>
+        {% for i in comments %}
+        <div class="col-9">
+            <div class="input-group">
+              {{forloop.counter}}.  {{i}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <form class="form-horizontal" method="POST">
+        {% csrf_token %}
+        <div class="row spacer">
+            <div class="col-2">
+                <label>{{form.task.label}}</label>
+            </div>
+            <div class="col-7">
+                <div class="input-group">
+                    {{form.task}}
+                </div>
+            </div>
+        </div>
+        <div class="row spacer">
+            <div class="col-2">
+                <label>{{form.comment.label}}</label>
+            </div>
+            <div class="col-7">
+                <div class="input-group">
+                    {{form.comment}}
+                </div>
+            </div>
+        </div>
+    <div class="row spacer">
+        <div class="col-4 offset-2">
+            <button type="submit" class="btn btn-block btn-primary">Add Comment</button>
+        </div>
+    </div>
+</form>
+</div>
+
+
+</body>
+</html>
